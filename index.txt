@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kişisel & Salon Dijital Kartvizit</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ff0a38',
+                            darkRed: '#99001f',
+                            black: '#08080c',
+                            card: '#121218',
+                            border: '#242430'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050508;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 10, 56, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(255, 10, 56, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .red-glow {
+            box-shadow: 0 0 25px rgba(255, 10, 56, 0.4);
+        }
+
+        .red-glow-sm {
+            box-shadow: 0 0 10px rgba(255, 10, 56, 0.3);
+        }
+
+        .red-border-glow {
+            border-color: #ff0a38;
+            box-shadow: 0 0 15px rgba(255, 10, 56, 0.3);
+        }
+
+        .link-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 10, 56, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .link-card:hover::before, .link-card:active::before {
+            left: 100%;
+        }
+
+        .link-card:hover, .link-card:active {
+            transform: translateY(-2px);
+            border-color: #ff0a38;
+            box-shadow: 0 5px 20px rgba(255, 10, 56, 0.35);
+        }
+
+        /* Pulse Animation for Profile Ring */
+        @keyframes ringPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 10, 56, 0.6); }
+            50% { box-shadow: 0 0 35px rgba(255, 10, 56, 0.9); }
+        }
+
+        .avatar-glow {
+            animation: ringPulse 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-4 sm:p-6 antialiased selection:bg-brand-red selection:text-white">
+
+    <!-- Toast Notification (Bildirim Kutusu) -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-brand-red text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-text">Kopyalandı!</span>
+    </div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-md mx-auto my-auto flex flex-col items-center">
+
+        <!-- HEADER SECTION -->
+        <header class="flex flex-col items-center text-center mt-4 mb-6">
+            <!-- Profil Görseli -->
+            <div class="relative group mb-4">
+                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-tr from-brand-red via-red-600 to-black avatar-glow">
+                    <img id="profile-img" 
+                         src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400&auto=format&fit=crop&q=80" 
+                         alt="Profil Fotoğrafı" 
+                         class="w-full h-full object-cover rounded-full bg-black border-2 border-black"
+                         onerror="this.src='https://placehold.co/200x200/0a0a0c/ff0a38?text=COACH'">
+                </div>
+                <!-- Aktiflik Rozeti -->
+                <span class="absolute bottom-1 right-1 w-5 h-5 bg-brand-red border-2 border-black rounded-full red-glow-sm flex items-center justify-center text-[10px] text-white">
+                    <i class="fa-solid fa-bolt"></i>
+                </span>
+            </div>
+
+            <!-- İsim & Unvan -->
+            <h1 class="font-orbitron text-2xl sm:text-3xl font-black tracking-wider text-white uppercase drop-shadow-md">
+                AD SOYAD
+            </h1>
+            <p class="text-brand-red font-semibold text-xs sm:text-sm tracking-widest uppercase mt-1">
+                Head Coach & Gym Owner
+            </p>
+            <p class="text-gray-400 text-xs sm:text-sm mt-2 max-w-xs leading-relaxed">
+                Disiplin, Güç ve Performans. Hayalindeki vücut ve mücadele ruhu için buradayız.
+            </p>
+        </header>
+
+        <!-- ACTION BUTTONS SECTION -->
+        <section class="w-full flex flex-col gap-3.5 mb-6">
+
+            <!-- 1. SALON INSTAGRAM -->
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
+               class="link-card w-full p-4 bg-brand-card border border-brand-border rounded-xl flex items-center justify-between group">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-lg bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-xl group-hover:bg-brand-red group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <div class="text-left">
+                        <h2 class="font-bold text-sm text-white group-hover:text-brand-red transition-colors">Salonumuzun Instagram'ı</h2>
+                        <p class="text-xs text-gray-400">Antrenmanlar, tesis & atmosfer</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-500 text-xs group-hover:text-brand-red group-hover:translate-x-1 transition-all"></i>
+            </a>
+
+            <!-- 2. KİŞİSEL INSTAGRAM -->
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
+               class="link-card w-full p-4 bg-brand-card border border-brand-border rounded-xl flex items-center justify-between group">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-lg bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-xl group-hover:bg-brand-red group-hover:text-white transition-colors">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <div class="text-left">
+                        <h2 class="font-bold text-sm text-white group-hover:text-brand-red transition-colors">Kişisel Instagram Hesabım</h2>
+                        <p class="text-xs text-gray-400">Günlük yaşam & koçluk içerikleri</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-500 text-xs group-hover:text-brand-red group-hover:translate-x-1 transition-all"></i>
+            </a>
+
+            <!-- 3. TIKTOK -->
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" 
+               class="link-card w-full p-4 bg-brand-card border border-brand-border rounded-xl flex items-center justify-between group">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-lg bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-xl group-hover:bg-brand-red group-hover:text-white transition-colors">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <div class="text-left">
+                        <h2 class="font-bold text-sm text-white group-hover:text-brand-red transition-colors">TikTok Hesabım</h2>
+                        <p class="text-xs text-gray-400">Kısa videolar & motivasyon</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-500 text-xs group-hover:text-brand-red group-hover:translate-x-1 transition-all"></i>
+            </a>
+
+            <!-- 4. WHATSAPP İLETİŞİM -->
+            <a href="https://wa.me/905000000000" target="_blank" rel="noopener noreferrer" 
+               class="link-card w-full p-4 bg-gradient-to-r from-brand-card via-brand-card to-brand-red/20 border border-brand-red/40 rounded-xl flex items-center justify-between group red-glow-sm">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-lg bg-brand-red flex items-center justify-center text-white text-xl shadow-lg shadow-brand-red/50">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div class="text-left">
+                        <h2 class="font-bold text-sm text-white">Bize WhatsApp'tan Yazın</h2>
+                        <p class="text-xs text-gray-300">Özel ders & üyelik bilgisi al</p>
+                    </div>
+                </div>
+                <span class="text-[10px] font-bold bg-brand-red text-white px-2 py-1 rounded tracking-wide uppercase">BİLGİ AL</span>
+            </a>
+
+            <!-- 5. GOOGLE MAPS KONUM -->
+            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" 
+               class="link-card w-full p-4 bg-brand-card border border-brand-border rounded-xl flex items-center justify-between group">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-lg bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-xl group-hover:bg-brand-red group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="text-left">
+                        <h2 class="font-bold text-sm text-white group-hover:text-brand-red transition-colors">Salonun Konumu (Google Maps)</h2>
+                        <p class="text-xs text-gray-400">Yol tarifi al & ziyaret et</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-gray-500 text-xs group-hover:text-brand-red transition-all"></i>
+            </a>
+
+            <!-- 6. NUMARA KOPYALAMA BUTONU -->
+            <button onclick="copyToClipboard('+90 500 000 00 00', 'Telefon numarası kopyalandı!')" 
+                    class="link-card w-full p-4 bg-brand-card border border-brand-border rounded-xl flex items-center justify-between group text-left">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-lg bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-xl group-hover:bg-brand-red group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-sm text-white group-hover:text-brand-red transition-colors">Telefon / İletişim</h2>
+                        <p class="text-xs text-gray-400">+90 500 000 00 00 (Kopyalamak için tıkla)</p>
+                    </div>
+                </div>
+                <i class="fa-regular fa-copy text-gray-500 text-xs group-hover:text-brand-red transition-all"></i>
+            </button>
+
+            <!-- 7. AKORDİYON / HAKKIMDA ALANI -->
+            <div class="w-full bg-brand-card border border-brand-border rounded-xl overflow-hidden transition-all">
+                <button onclick="toggleAccordion()" class="w-full p-4 flex items-center justify-between text-left hover:bg-brand-border/30 transition-colors">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-xl">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h2 class="font-bold text-sm text-white">Hakkımda & Başarılar</h2>
+                    </div>
+                    <i id="accordion-icon" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-300"></i>
+                </button>
+                <div id="accordion-content" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 bg-black/40">
+                    <div class="py-3 text-xs text-gray-300 space-y-2 border-t border-brand-border/50">
+                        <p><i class="fa-solid fa-check text-brand-red mr-1.5"></i> 10+ Yıllık Antrenörlük Tecrübesi</p>
+                        <p><i class="fa-solid fa-check text-brand-red mr-1.5"></i> Özel Dövüş & Fitness Programları</p>
+                        <p><i class="fa-solid fa-check text-brand-red mr-1.5"></i> Yüzlerce Başarılı Öğrenci Değişimi</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-4 text-center">
+            <p class="text-[11px] text-gray-500 tracking-widest uppercase">
+                &copy; 2026 Tüm Hakları Saklıdır
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- JavaScript İşlevleri -->
+    <script>
+        // Pano kopyalama fonksiyonu
+        function copyToClipboard(text, message) {
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast(message);
+        }
+
+        // Toast Bildirimi Gösterme
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            const toastText = document.getElementById("toast-text");
+            toastText.textContent = message;
+            toast.classList.remove("opacity-0");
+            toast.classList.add("opacity-100");
+
+            setTimeout(() => {
+                toast.classList.remove("opacity-100");
+                toast.classList.add("opacity-0");
+            }, 2000);
+        }
+
+        // Akordiyon (Hakkımda) Aç/Kapa
+        function toggleAccordion() {
+            const content = document.getElementById("accordion-content");
+            const icon = document.getElementById("accordion-icon");
+
+            if (content.style.maxHeight && content.style.maxHeight !== "0px") {
+                content.style.maxHeight = "0px";
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.style.transform = "rotate(180deg)";
+            }
+        }
+    </script>
+</body>
+</html>
